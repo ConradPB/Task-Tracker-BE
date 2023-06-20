@@ -1,0 +1,31 @@
+{
+  "name": "task-tracker-be",
+  "version": "1.0.0",
+  "description": "App to manage and track tasks",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon src/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/G-rizz/Task-Tracker-BE.git"
+  },
+  "keywords": [
+    "Node",
+    "App",
+    "Express",
+    "Tracker",
+    "Task",
+    "backend"
+  ],
+  "author": "Conrad P B",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/G-rizz/Task-Tracker-BE/issues"
+  },
+  "homepage": "https://github.com/G-rizz/Task-Tracker-BE#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}

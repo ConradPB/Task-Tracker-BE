@@ -1,3 +1,3 @@
 import 'dotenv/config'
 
-console.log('Hello world. Howdy nodemon!');
+console.log('Hello world. Howdy nodemon!')

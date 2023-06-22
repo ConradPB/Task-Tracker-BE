@@ -3,6 +3,7 @@ import 'dotenv/config'
 import cors from 'cors'
 import express from 'express'
 import { v4 as uuidv4 } from 'uuid'
+import models from './models'
 
 
 const app = express()
@@ -10,7 +11,10 @@ const app = express()
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use((req, res, next) => {
-  req.me = users[1];
+  req.context = {
+    models,
+    me: models.users[1],
+  }
   next();
   
 });
@@ -18,46 +22,23 @@ app.use((req, res, next) => {
 app.use(cors())
 
 
-let users = {
-  1: {
-    id: '1',
-    username: 'Conrad P B',
-  },
-  2: {
-    id: '2',
-    username: 'Ray Davis',
-  },
-};
 
-let tasks = {
-  1: {
-    id: '1',
-    text: 'Shopping',
-    userId: '1',
-  },
-  2: {
-    id: '2',
-    text: 'Swimming',
-    userId: '2',
-  },
-};
 
 app.get('/users', (req, res) => {
-  return res.json(Object.values({users}));
+  return res.json(Object.values(req.context.models.users));
 });
 
 app.get('/users/:userId', (req, res) => {
-  return res.json(users[req.params.userId]);
+  return res.json(req.context.models.users[req.params.userId]);
 });
-
 
 
 app.get('/tasks', (req, res) => {
-  return res.send(Object.values(tasks));
+  return res.send(Object.values(req.context.models.tasks));
 });
 
 app.get('/tasks/:tasksId', (req, res) => {
-  return res.send(tasks[req.params.tasksId]);
+  return res.send(req.context.models.tasks[req.params.tasksId]);
 });
 
 app.post('/tasks', (req, res) => {
@@ -68,7 +49,7 @@ app.post('/tasks', (req, res) => {
     userId: req.me.id,
   };
 
-  tasks[id] = task;
+  req.context.models.tasks[id] = task;
 
   return res.json({task});
 });
@@ -88,9 +69,9 @@ app.delete('/tasks/:taskId', (req, res) => {
   const {
     [req.params.taskId]: task,
     ...otherTasks
-  } = tasks;
+  } = req.context.models.tasks;
 
-  tasks = otherTasks;
+  req.context.models.tasks = otherTasks;
 
   return res.json({task});
 });

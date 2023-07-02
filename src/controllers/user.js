@@ -12,6 +12,13 @@ class User {
     return res.status(200).json(user);
   }
 
+  async createUser(req, res) {
+    const user = await req.context.models.User.create({
+      username: req.body.username,
+    })
+
+    return res.status(200).json(user);
+  }
 }
 
 export default User

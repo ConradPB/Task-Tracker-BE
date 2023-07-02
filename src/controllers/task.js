@@ -14,7 +14,8 @@ class Task {
   async createTask(req, res) {
     const task = await req.context.models.Task.create({
       text: req.body.text,
-      userId: req.context.me.id,})
+      user: req.context.me._id,
+    })
 
     return res.status(200).json(task);
   }

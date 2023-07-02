@@ -1,13 +1,14 @@
 import express from 'express'
+import User from '../controllers/user'
 
 const router = express.Router()
 
-router.get('/', (req,res) => {
-  return res.json(Object.values(req.context.models.users));
-})
+const userController = new User
+
+router.get('/', userController.fetchUsers)
   
-router.get('/:userId', (req,res) => {
-  return res.send(req.context.models.users[req.params.userId]);
-})
+router.get('/:userId', userController.fetchUser)
+
+router.post('/', userController.createUser)
 
 export default router

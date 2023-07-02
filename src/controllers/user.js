@@ -1,13 +1,24 @@
 class User {
-  fetchUsers(req, res) {
-    return res.json(Object.values(req.context.models.users));
+  async fetchUsers(req, res) {
+    const users = await req.context.models.User.find()
+    
+    return res.status(200).json(users);
 
   }
     
-  fetchUser(req, res) {
-    return res.send(req.context.models.users[req.params.userId]);
+  async fetchUser(req, res) {
+    const user = await req.context.models.User.findById(req.params.userId)
+
+    return res.status(200).json(user);
   }
 
+  async createUser(req, res) {
+    const user = await req.context.models.User.create({
+      username: req.body.username,
+    })
+
+    return res.status(200).json(user);
+  }
 }
 
 export default User

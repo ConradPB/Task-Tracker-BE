@@ -1,45 +1,44 @@
-import { v4 as uuidv4 } from 'uuid'
 
 class Task {
-  fetchTasks(req, res) {
-    return res.send(Object.values(req.context.models.tasks));
+  async fetchTasks(req, res) {
+    const tasks = await req.context.models.Task.find()
+
+    return res.status(200).json(tasks);
   }
 
-  fetchTask(req, res) {
-    return res.send(req.context.models.tasks[req.params.taskId]);
+  async fetchTask(req, res) {
+    const task = await req.context.models.Task.findById(req.params.taskId)
+    return res.status(200).json(task);
   }
 
-  createTask(req, res) {
-    const id = uuidv4();
-    const task = {
-      id,
+  async createTask(req, res) {
+    const task = await req.context.models.Task.create({
       text: req.body.text,
-      userId: req.context.me.id,
-    };
+      user: req.context.me._id,
+    })
+
+    return res.status(200).json(task);
+  }
   
-    req.context.models.tasks[id] = task;
-  
-    return res.send(task);
+    
+  async updateTask(req, res) {
+    const task = await req.context.models.Task.findByIdAndUpdate(
+      req.params.taskId,
+      { text: req.body.text },
+      { new: true }
+    );
+    return res.status(200).json(task);
   }
 
-  updateTask(req, res) {
-    const { text } = req.body;
-    const task = req.context.models.tasks[req.params.taskId];
-    if (task) {
-      task.text = text;
-      return res.send(task);
-    } 
-  }
 
-  deleteTask(req, res) {
-    const {
-      [req.params.taskId]: task,
-      ...otherTasks
-    } = req.context.models.tasks;
+  async deleteTask(req, res) {
+    const task = await req.context.models.Task.findById(req.params.taskId);
     
-    req.context.models.tasks = otherTasks;
-    
-    return res.send(task);
+    if(task) {
+      await task.deleteOne();
+    }
+
+    return res.status(200).json(task);
   }
 
 }

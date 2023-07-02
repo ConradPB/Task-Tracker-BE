@@ -30,13 +30,12 @@ class Task {
     return res.status(200).json(task);
   }
 
-  
 
   async deleteTask(req, res) {
-    const task = req.context.models.Task.findById(req.params.taskId);
+    const task = await req.context.models.Task.findById(req.params.taskId);
     
     if(task) {
-      await task.remove();
+      await task.deleteOne();
     }
 
     return res.status(200).json(task);

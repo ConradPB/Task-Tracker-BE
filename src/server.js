@@ -35,3 +35,4 @@ connectDb().then(async () => {
     console.log(`App is hot and listening on port ${process.env.PORT}!`),
   );
 })
+

@@ -1,8 +1,9 @@
 
 class Task {
   async fetchTasks(req, res) {
-    const tasks = await req.context.models.Task.find()
-
+    const sortField = req.query.sortField || 'dueDate';
+    const sortOrder = req.query.sortOrder === 'asc' ? 1 : -1;
+    const tasks = await req.context.models.Task.find().sort({ [sortField]: sortOrder });
     return res.status(200).json(tasks);
   }
 
@@ -14,6 +15,9 @@ class Task {
   async createTask(req, res) {
     const task = await req.context.models.Task.create({
       text: req.body.text,
+      description: req.body.description,
+      status: req.body.status,
+      dueDate: req.body.dueDate,
       user: req.context.me._id,
     })
 
@@ -24,7 +28,10 @@ class Task {
   async updateTask(req, res) {
     const task = await req.context.models.Task.findByIdAndUpdate(
       req.params.taskId,
-      { text: req.body.text },
+      { text: req.body.text,
+        description: req.body.description,
+        status: req.body.status,
+        dueDate: req.body.dueDate },
       { new: true }
     );
     return res.status(200).json(task);

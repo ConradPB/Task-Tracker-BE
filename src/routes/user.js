@@ -9,6 +9,8 @@ router.get('/', userController.fetchUsers)
   
 router.get('/:userId', userController.fetchUser)
 
-router.post('/', userController.createUser)
+router.post('/', userController.registerUser)
+
+router.post('/login', userController.loginUser)
 
 export default router

@@ -1,20 +1,21 @@
+/* eslint-disable no-unused-vars */
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 class User {
-  async fetchUsers(req, res) {
+  async fetchUsers(req, res, next) {
     const users = await req.context.models.User.find()
     
     return res.status(200).json(users);
 
   }
     
-  async fetchUser(req, res) {
+  async fetchUser(req, res, next) {
     const user = await req.context.models.User.findById(req.params.userId)
 
     return res.status(200).json(user);
   }
 
-  async registerUser(req, res) {
+  async registerUser(req, res, next) {
     try {
       // Get user input
       const { username, password } = await req.body
@@ -60,7 +61,7 @@ class User {
     }
   }
 
-  async loginUser(req, res) {
+  async loginUser(req, res, next) {
     try {
       // Get user input
       const { username, password } = await req.body

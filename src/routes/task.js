@@ -4,15 +4,15 @@ const router = express.Router()
 
 const taskController = new Task();
 
-router.get('/', taskController.fetchTasks)
+router.get('/', (req, res, next) => taskController.fetchTasks(req, res, next))
   
-router.get('/:taskId', taskController.fetchTask)
+router.get('/:taskId', (req, res, next) => taskController.fetchTask(req, res, next))
 
-router.post('/', taskController.createTask)
+router.post('/', (req, res, next) => taskController.createTask(req, res, next))
 
-router.put('/:taskId', taskController.updateTask)
+router.put('/:taskId', (req, res, next) => taskController.updateTask(req, res, next))
 
-router.delete('/:taskId', taskController.deleteTask);
+router.delete('/:taskId', (req, res, next) => taskController.deleteTask(req, res, next));
 
 
 export default router

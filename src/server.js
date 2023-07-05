@@ -4,6 +4,7 @@ import cors from 'cors'
 import express from 'express'
 import models, { connectDb } from './models'
 import routes from './routes'
+import errorHandler from './middleware/errorHandler'
 
 const app = express()
 
@@ -21,6 +22,7 @@ app.use(async(req, res, next) => {
 
 app.use('/users', routes.user)
 app.use('/tasks', routes.task)
+app.use(errorHandler)
 
 const eraseDatabaseOnSync = true;
 connectDb().then(async () => {

@@ -5,12 +5,12 @@ const router = express.Router()
 
 const userController = new User
 
-router.get('/', userController.fetchUsers)
+router.get('/', (req, res, next) => userController.fetchUsers(req, res, next))
   
-router.get('/:userId', userController.fetchUser)
+router.get('/:userId', (req, res, next) => userController.fetchUser(req, res, next))
 
-router.post('/', userController.registerUser)
+router.post('/', (req, res, next) => userController.registerUser(req, res, next))
 
-router.post('/login', userController.loginUser)
+router.post('/login', (req, res, next) => userController.loginUser(req, res, next))
 
 export default router
